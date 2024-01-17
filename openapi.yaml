@@ -107,6 +107,45 @@ paths:
                     nullable: true
                     description: Detail of the error message.
           description: ""
+  /project/assets/generate_video_from_audio/:
+    post:
+      operationId: Generate Video from Audio
+      description: Generate an AI avatar video from an audio file or url.
+      tags:
+        - project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateVideoFromAudioUrlRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/GenerateVideoFromAudioFileRequest"
+        required: true
+      security:
+        - apiKeyAuth: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateVideoResponse"
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ""
   /project/assets/language/:
     get:
       operationId: List Languages
@@ -505,105 +544,39 @@ paths:
           description: ""
   /project/generate_video/:
     post:
-      operationId: Generate Video
-      description: Create a customized video.
+      operationId: Generate Video from Text
+      description: Generate an AI avatar video from text.
       tags:
         - project
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                  description: Title of the video.
-                slate_script:
-                  type: string
-                  description: The script to be spoken by the avatar.
-                avatar_id:
-                  type: string
-                  format: uuid
-                language_id:
-                  type: number
-                  description:
-                    Language used to generate the audio.                                             Laungauge
-                    Id for `English - Default (en-us)` is `94`
-                aspect_ratio:
-                  type: string
-                  description: Aspect ratio of the video
-                  enum:
-                    - "16:9"
-                    - "9:16"
-                    - "4:3"
-                    - "1:1"
-                background_image:
-                  type: string
-                  format: uri
-                  description:
-                    A public HTTP link of an image (jpg/jpeg/png).                                             A
-                    public HTTP link of a video (mp4 only).                                             The
-                    background will loop the whole video if the background video is
-                    shorter than the whole video.
-                stability:
-                  type: number
-                  minimum: 0
-                  maximum: 1
-                  description:
-                    This controls the level of variation in generated audio.             Low
-                    stability will increase expressiveness of speech while high             stability
-                    will lower expressiveness but increase the predictability of how
-                    the script is spoken.
-                  default: 0.0
-                style_exaggeration:
-                  type: number
-                  minimum: 0
-                  maximum: 1
-                  description:
-                    Level of exaggeration of the speaking style. Available
-                    only for custom voices.             Higher values will make increase
-                    similarity of cloned voice but may cause the audio to be less
-                    stable.
-                  default: 0.5
-                background_color:
-                  type: string
-                  description:
-                    "The background colour video.                                             A
-                    six-bit hex color code starts with #. (e.g. #DRDRDR)                                             _NOTE:
-                    The `background_image` will get preference over `background_color`
-                    if both are specified._"
-                  default: "#3D3D3D"
-                  pattern: "#[0-9A-Fa-f]{6}"
-              required:
-                - slate_script
-                - avatar_id
-                - aspect_ratio
+              $ref: "#/components/schemas/GenerateVideoWithScriptRequest"
+        required: true
       security:
         - apiKeyAuth: []
       responses:
-        "404":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The error detail of the video.
-          description: ""
         "200":
           content:
             application/json:
               schema:
+                $ref: "#/components/schemas/GenerateVideoResponse"
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  video_id:
-                    type: string
-                    format: uuid
-                    description: Unique Identitfier for the object.
                   message:
                     type: string
-                    description: Optional, the error detail of the video.
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
           description: ""
   /project/generate_voice_audio/:
     post:
@@ -1324,6 +1297,198 @@ components:
       required:
         - download_url
         - id
+    GenerateVideoFromAudioFileRequest:
+      type: object
+      properties:
+        audio_file:
+          type: string
+          format: uri
+          description: An audio file. (mpeg). Size max limit is 5 mb.
+        avatar_id:
+          type: string
+          format: uuid
+          description: The avatar to be used to generate the video
+        background_color:
+          type: string
+          default: "#3D3D3D"
+          description:
+            "The background color video. A six-bit hex color code starts
+            with #. (e.g. #DRDRDR)                                      NOTE: The
+            `background_image` will get preference over `background_color` if both
+            are specified."
+        background_image:
+          type: string
+          format: uri
+          description: A public HTTPS link of an image (jpg/jpeg/png).
+        aspect_ratio:
+          allOf:
+            - $ref: "#/components/schemas/AspectRatioEnum"
+          description: |-
+            Aspect ratio of the video.
+
+            * `16:9` - 16:9 - Standard widescreen
+            * `9:16` - 9:16 - Vertical
+            * `4:3` - 4:3 - Traditional TV format
+            * `1:1` - 1:1 - Square
+        title:
+          type: string
+          description: Title of the video. Length should be less than 100 characters.
+      required:
+        - aspect_ratio
+        - audio_file
+        - avatar_id
+    GenerateVideoFromAudioUrlRequest:
+      type: object
+      properties:
+        audio_url:
+          type: string
+          format: uri
+          description: A public HTTPS link of an audio file (mpeg).
+        avatar_id:
+          type: string
+          format: uuid
+          description: The avatar to be used to generate the video
+        background_color:
+          type: string
+          default: "#3D3D3D"
+          description:
+            "The background color video. A six-bit hex color code starts
+            with #. (e.g. #DRDRDR)                                      NOTE: The
+            `background_image` will get preference over `background_color` if both
+            are specified."
+        background_image:
+          type: string
+          format: uri
+          description: A public HTTPS link of an image (jpg/jpeg/png).
+        aspect_ratio:
+          allOf:
+            - $ref: "#/components/schemas/AspectRatioEnum"
+          description: |-
+            Aspect ratio of the video.
+
+            * `16:9` - 16:9 - Standard widescreen
+            * `9:16` - 9:16 - Vertical
+            * `4:3` - 4:3 - Traditional TV format
+            * `1:1` - 1:1 - Square
+        title:
+          type: string
+          description: Title of the video. Length should be less than 100 characters.
+      required:
+        - aspect_ratio
+        - audio_url
+        - avatar_id
+    GenerateVideoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Uique Identifier of the video.
+        estimated_completion_time:
+          type: integer
+          description: Video generation estimated completion time in seconds.
+        message:
+          type: string
+          description: Extra detail.
+      required:
+        - id
+    GenerateVideoWithScriptRequest:
+      type: object
+      properties:
+        slate_script:
+          type: array
+          items:
+            $ref: "#/components/schemas/NodeParagraph"
+          description: |-
+            The final text content is represented as a list of paragraph
+            objects, each of which contains two properties: `type` and `children`, and follows this format:
+            ```
+            {
+              'type': 'paragraph',
+              'children': [...]
+            }
+            ```
+            where the `children` property is a list of objects that can contain script nodes.
+            A script node can be either a TEXT node or a Tag node with the following format:
+            For TEXT node:
+            ```
+            {
+              'text': 'some text...'
+            }
+            ```
+            where the `text` property is of type string and contains the actual text representing
+            a single line or phrase to be spoken.
+
+            To add a pause to your text, you can use the Tag node:
+            ```
+            {
+              'type': 'pause',
+              'value': 2
+            }
+            ```
+            where the `type` property with a 'pause' literal is used to insert a pause
+            in the audio, and the `value` property specifies the duration of the pause in seconds.
+            Please note that themaximum duration allowed is 10 seconds.
+        avatar_id:
+          type: string
+          format: uuid
+          description: The avatar to be used to generate the video
+        language_id:
+          type: integer
+          default: 94
+          description:
+            Language used to generate the video.                                                       Language
+            Id for `English - Default (en-us)` is `94`
+        background_color:
+          type: string
+          default: "#3D3D3D"
+          description:
+            "The background color video. A six-bit hex color code starts
+            with #. (e.g. #DRDRDR)                                      NOTE: The
+            `background_image` will get preference over `background_color` if both
+            are specified."
+        background_image:
+          type: string
+          format: uri
+          description: A public HTTP link of an image (jpg/jpeg/png).
+        aspect_ratio:
+          allOf:
+            - $ref: "#/components/schemas/AspectRatioEnum"
+          description: |-
+            Aspect ratio of the video.
+
+            * `16:9` - 16:9 - Standard widescreen
+            * `9:16` - 9:16 - Vertical
+            * `4:3` - 4:3 - Traditional TV format
+            * `1:1` - 1:1 - Square
+        title:
+          type: string
+          description: Title of the video. Length should be less than 100 characters.
+        stability:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+          default: 0.5
+          description:
+            This controls the level of variation in generated audio.             Low
+            stability will increase expressiveness of speech while high             stability
+            will lower expressiveness but increase the predictability of how the script
+            is spoken.
+        style_exaggeration:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+          default: 0.0
+          description:
+            Level of exaggeration of the speaking style. Available only
+            for custom voices.             Higher values will make increase similarity
+            of cloned voice but may cause the audio to be less stable.
+      required:
+        - aspect_ratio
+        - avatar_id
+        - slate_script
     Langauge:
       type: object
       properties:

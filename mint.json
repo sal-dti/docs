@@ -55,7 +55,8 @@
     {
       "group": "Video",
       "pages": [
-        "api-reference/video/create-video",
+        "api-reference/video/create-video-text",
+        "api-reference/video/create-video-audio",
         "api-reference/video/list-videos",
         "api-reference/video/get-video",
         "api-reference/video/delete-video",
