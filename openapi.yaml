@@ -581,7 +581,7 @@ paths:
   /project/generate_voice_audio/:
     post:
       operationId: Create Audio
-      description: Generate Audio from voice.
+      description: Generate Audio from text.
       tags:
         - project
       requestBody:
@@ -1246,7 +1246,7 @@ components:
             ```
             where the `type` property with a 'pause' literal is used to insert a pause
             in the audio, and the `value` property specifies the duration of the pause in seconds.
-            Please note that themaximum duration allowed is 10 seconds.
+            Please note that the maximum duration allowed is 10 seconds.
         voice_id:
           type: string
           format: uuid
@@ -1303,7 +1303,7 @@ components:
         audio_file:
           type: string
           format: uri
-          description: An audio file. (mpeg). Size max limit is 5 mb.
+          description: An audio file. (mp3). Size max limit is 5 mb.
         avatar_id:
           type: string
           format: uuid
@@ -1343,7 +1343,7 @@ components:
         audio_url:
           type: string
           format: uri
-          description: A public HTTPS link of an audio file (mpeg).
+          description: A public HTTPS link of an audio file (mp3).
         avatar_id:
           type: string
           format: uuid
@@ -1428,7 +1428,7 @@ components:
             ```
             where the `type` property with a 'pause' literal is used to insert a pause
             in the audio, and the `value` property specifies the duration of the pause in seconds.
-            Please note that themaximum duration allowed is 10 seconds.
+            Please note that the maximum duration allowed is 10 seconds.
         avatar_id:
           type: string
           format: uuid
