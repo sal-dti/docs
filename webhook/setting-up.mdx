@@ -1,0 +1,171 @@
+---
+title: "Consume Webhook Events"
+---
+
+In this tutorial, we will construct a straightforward endpoint using Python and Flask, followed by making this local webhook endpoint
+accessible on the internet. Next, we will link it to DeepReel webhook events, allowing us to begin gathering events at our endpoint.
+Let's get started!
+
+## Let's Start Building Your Endpoint
+
+We'll start by creating a basic endpoint application using Python and Flask. Ensure you have the Flask library installed on your system.
+You can install it using the following command:
+
+```bash Bash
+pip install Flask
+```
+
+Next, set up your 'webhook_event_listener' endpoint. We'll configure it to accept POST requests, as DeepReel will send POST requests to your endpoint.
+
+```python
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/webhook_event_listener", methods=["POST"])
+def webhook_event_listener():
+    """
+    Processes POST requests at the '/webhook_event_listener' endpoint.
+    """
+    print(request.json)
+    return "Success!", 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+
+After creating this Python file, save it and run your Flask application using the following command:
+
+```bash Bash
+python app.py
+```
+
+Now, your local endpoint is operational. When a POST request is sent to 127.0.0.1:5000/webhook_event_listener with a JSON body,
+you will be able to see the output displayed in your console.
+
+<CodeGroup>
+```bash Request
+curl --request POST
+--url 'http://127.0.0.1:5000/webhook_event_listener'
+--header 'Content-Type: application/json'
+--data '{"msg": "Hello!"}'
+```
+
+```python Output (Python)
+127.0.0.1 - "POST /webhook_event_listener HTTP/1.1" 200 -
+{'msg': 'Hello!'}
+```
+
+</CodeGroup>
+
+It's functioning successfully locally, but to receive requests from DeepReel at our endpoint in later stages, we need to expose it to the internet.
+
+## Exposing Your Endpoint to the Internet
+
+In a development environment, your Flask application typically runs on localhost, which isn't accessible from the internet. To receive webhooks from external sources, tools like Ngrok, LocalTunnel, Cloudflare Tunnel, or Smee.io can be used to make your local server internet-accessible.
+
+For our needs, we'll use Smee.io, as it is free and provides a stable endpoint address. This is beneficial since we will be registering our endpoint with DeepReel.
+
+```bash Bash
+npm install -g smee-client
+```
+
+Now, visit https://smee.io/new to acquire a new endpoint address. After that, you can use the following command to make your local endpoint accessible:
+
+```bash Bash
+smee -t http://127.0.0.1:5000/webhook_event_listener -u https://smee.io/<id>
+```
+
+That's all there is to it. With this setup, your local endpoint is now capable of receiving requests from anywhere on the internet.
+
+## Register Endpoint to DeepReel
+
+To finalize the integration, you need to register your webhook endpoint with DeepReel. Here are the steps to follow:
+
+<CodeGroup>
+```bash Request
+curl --request POST
+--url 'https://api.deepreel.com/user/webhook/' \
+--header 'Content-Type: application/json' \
+--header 'x-api-key: <your-api-key>' \
+--data '{
+  "endpoint": "https://smee.io/<id>",
+  "events": ["video.generation.success"]
+}'
+```
+
+```javascript Response (Success)
+{
+  "endpoint": "https://smee.io/<id>",
+  "key": "<secret>"
+  "events": ["video.generation.success"]
+}
+```
+
+</CodeGroup>
+
+Make sure to record the details returned from this request, as they will be essential for securing your endpoint.
+
+## Finalizing Your Code
+
+To finalize the implementation, it's crucial to enhance your endpoint's security by verifying DeepReel's requests using the secret key provided.
+
+Upon successful request reception, we will display the event type and event data that DeepReel has sent to our endpoint.
+
+<CodeGroup>
+
+```python Python
+from flask import Flask, request
+import hmac
+from hashlib import sha256
+
+app = Flask(__name__)
+
+@app.route("/webhook_event_listener", methods=["POST"])
+def webhook_event_listener():
+    # Secret key received from DeepReel for verifying the request
+    wh_secret = "<secret>"
+
+    # Extracting the content of the request
+    content_str = (request.data or b"").decode()
+
+    # Extracting the signature from the request headers
+    signature = request.headers.get("signature", "")
+
+    # Calculating the HMAC of the content with the secret key
+    mac = hmac.new(
+        wh_secret.encode("utf-8"),
+        msg=content_str.encode("utf-8"),
+        digestmod=sha256,
+    )
+    computed_signature = mac.hexdigest()
+
+    # Checking if the computed signature matches the received signature
+    if computed_signature != signature:
+        raise Exception("Invalid request")
+
+    # Processing the event data from the request JSON
+    req_json = request.json
+    event_type = req_json.get('type')
+    event_error = req_json.get('error')
+    event_data = req_json.get('data')
+
+    # Printing event information
+    if event_error is None:
+      print(f"Event Type: {event_type}; Event Data: {event_data}")
+    else:
+      print(f"Event Type: {event_type}; Event Error: {event_error}")
+
+    return "Success!", 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+
+</CodeGroup>
+
+Now, you are equipped to handle webhook events from DeepReel and open up a realm of opportunities for your application. Congratulations on successfully completing this integration journey!
+
+## Conclusion
+
+In this guide, you've successfully established a powerful webhook endpoint for DeepReel using Python and Flask. This endpoint enables you to effortlessly receive and manage video information, paving the way for interactive and data-driven applications. Your creative integration with DeepReel's features is set to elevate user experiences, adding dynamism and engagement to your projects.

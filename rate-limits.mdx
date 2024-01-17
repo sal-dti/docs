@@ -1,0 +1,25 @@
+---
+title: "Rate Limits"
+---
+
+Your account plan tier will limit the overall number of requests you can make per minute. Current rate limits by plan tier are:
+
+| Plan Tier            | Calls per minute |
+| -------------------- | ---------------- |
+| Starter              | 10               |
+| Creator/Creator-Plus | 50               |
+| Pro                  | 100              |
+| Business             | 300              |
+| Enterprise           | Unlimited        |
+
+## Rate Limit Headers
+
+Each external API call will include headers with rate limit information.
+This is a convenient way to retrieve your rate limits and usage.
+Every API call will respond with the following headers:
+
+| Header                      | Description                             |
+| --------------------------- | --------------------------------------- |
+| X-Ratelimit-Limit           | Number of requests allowed per minute   |
+| X-Ratelimit-Limit-Remaining | Number of requests remaining            |
+| X-Ratelimit-Limit-Reset     | Time in seconds before the limit resets |

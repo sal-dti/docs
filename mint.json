@@ -1,78 +1,113 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "DeepReel",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/dark.png",
+    "light": "/logo/dark.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#e53757",
+    "light": "#df6d67",
+    "dark": "#e53757",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#e53757",
+      "to": "#df6d67"
     }
+  },
+
+  "topbarCtaButton": {
+    "name": "Sign Up",
+    "url": "https://beta.deepreel.com/signin"
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Home Page",
+      "url": "https://deepreel.com/"
     }
   ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
-  },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
+
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
-    },
-    {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
-    },
-    {
-      "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
-    },
-    {
-      "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "quick-introduction",
+        "authentication",
+        "rate-limits",
+        "requests-responses",
+        {
+          "group": "Webhook",
+          "pages": ["webhook/overview", "webhook/setting-up"]
+        }
+      ]
+    },
+    {
+      "group": "Avatar",
+      "pages": [
+        "api-reference/avatar/get-avatar",
+        "api-reference/avatar/list-avatars"
+      ]
+    },
+    {
+      "group": "Language",
+      "pages": ["api-reference/language/list-languages"]
+    },
+    {
+      "group": "Video",
+      "pages": [
+        "api-reference/video/create-video",
+        "api-reference/video/list-videos",
+        "api-reference/video/get-video",
+        "api-reference/video/delete-video",
+        "api-reference/video/update-video"
+      ]
+    },
+    {
+      "group": "Voice",
+      "pages": [
+        "api-reference/voice/get-voice-saved-settings",
+        "api-reference/voice/list-voices"
+      ]
+    },
+    {
+      "group": "Audio",
+      "pages": [
+        "api-reference/audio/create-audio",
+        "api-reference/audio/get-audio",
+        "api-reference/audio/list-audios",
+        "api-reference/audio/delete-audio"
+      ]
+    },
+    {
+      "group": "User",
+      "pages": [
+        "api-reference/user/get-info",
+        "api-reference/user/get-subscription-info"
+      ]
+    },
+    {
+      "group": "Webhook",
+      "pages": [
+        "api-reference/webhook/register-webhook",
+        "api-reference/webhook/get-registered-webhook",
+        "api-reference/webhook/delete-registered-webhook",
+        "api-reference/webhook/list-subscribable-events"
       ]
     }
   ],
+  "api": {
+    "baseUrl": "https://api.deepreel.com",
+    "playground": {
+      "mode": "show"
+    }
+  },
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "linkedin": "https://www.linkedin.com/company/deepreel",
+    "twitter": "https://twitter.com/deepreel_ai",
+    "youtube": "https://www.youtube.com/channel/UCFk0d4BGgzuYo_eScFQGSgg"
+  },
+  "feedback": {
+    "suggestEdit": false,
+    "raiseIssue": false
   }
 }

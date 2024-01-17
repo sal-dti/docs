@@ -1,0 +1,157 @@
+---
+title: "Webhook Overview"
+---
+
+Webhook events serve as the method by which DeepReel informs your endpoints about various interactions or occurrences, such as the success or failure of avatar video processing. These events are transmitted by DeepReel as POST requests to your designated webhook endpoint
+
+### List Available Webhhok Events
+
+[See detailed API reference](/api-reference/webhook/get-subscribable-events)
+
+Let's begin exploring webhooks by enumerating all the available webhook events within the DeepReel API.
+
+<Note>
+  For now the only subscribable events are `video.generation.success`, and
+  `video.generation.fail`
+</Note>
+
+<Note>
+  We currently support registering only one endpoint (via the dashboard).
+</Note>
+
+<CodeGroup>
+```bash Request
+curl -request GET
+--url https://api.deepreel.com/webhook/events
+--header 'accept: application/json'
+--header 'x-api-key: <your-api-key>'
+```
+
+```javascript Response
+{
+  "events": [
+    "video.generation.success",
+    "video.generation.fail",
+  ]
+}
+```
+
+</CodeGroup>
+
+### Events Payload
+
+<CodeGroup>
+
+```javascript Video Generation Success
+{
+  "type": "video.generation.success",
+  "error": null,
+  "data": {
+    "video_id": "<video_id>",
+    "video_url": "<video_url>"
+  }
+}
+```
+
+```javascript Video Generation Failed
+{
+  "type": "video.generation.success",
+  "error": "<error-detail>",
+  "data": {
+    "video_id": "<video_id>"
+    "video_url": null
+  }
+}
+```
+
+</CodeGroup>
+
+## Register a Webhook Endpoint
+
+[See detailed API reference](/api-reference/webhook/register-webhook)
+Utilize the webhook register endpoint to register your endpoint, which will listen for DeepReel events.
+
+`events` refers to the specific events you wish to process. If set to `null`, your endpoint will receive all supported events from DeepReel.
+
+<Warning>
+  Please note that you can register on one webhook endpoint. Delete the old
+  webhook before registering a new one.
+</Warning>
+
+<CodeGroup>
+```bash Request
+curl --request POST
+--url 'https://api.deepreel.com/user/webhook/' \
+--header 'Content-Type: application/json' \
+--header 'x-api-key: <your-api-key>' \
+--data '{
+  "endpoint": "<your-endpoint>",
+  "events": ["video.generation.success"]
+}'
+```
+
+```javascript Response (Success)
+{
+    "endpoint": "<your-endpoint>",
+    "key": "<secret>",
+    "events": [
+        "video.generation.success"
+    ]
+}
+```
+
+```javascript Response (Error)
+{
+  "message": "<error-detail>"
+}
+```
+
+</CodeGroup>
+
+## Get Registered Webhook Endpoint
+
+[See detailed API reference](/api-reference/webhook/get-registered-webhook)
+You can use this endpoint to get your registered endpoint.
+
+<CodeGroup>
+```bash Request
+curl -request GET
+--url https://api.deepreel.com/user/webhook/
+--header 'accept: application/json'
+--header 'x-api-key: <your-api-key>'
+```
+
+```javascript Response (200)
+{
+    "endpoint": "<your-endpoint>",
+    "key": "<secret>",
+    "events": [
+        "video.generation.success"
+    ]
+}
+```
+
+```javascript Response(404)
+No Content
+```
+
+</CodeGroup>
+
+## Delete a Registered Webhook Endpoint
+
+[See detailed API reference](/api-reference/webhook/delete-registered-webhook)
+
+Utilize the webhook delete endpoint to delete a registered endpoint.
+
+<CodeGroup>
+```bash Request
+curl -request DELETE
+--url https://api.deepreel.com/user/webhook/
+--header 'x-api-key: <your-api-key>'
+```
+
+```javascript Response(204)
+No Content
+```
+
+</CodeGroup>

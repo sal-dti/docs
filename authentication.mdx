@@ -1,0 +1,38 @@
+---
+title: "Authentication"
+---
+
+The DeepReel API uses ApiKey Auth Scheme for authentication. To use the API, you will need to generate an API secret key.
+This can be done easily through the Account Settings Panel that is accessible through the left sidebar on the DeepReel web app.
+In the bottom left corner, click on your `Account` → `profile` to navigate to the account settings.
+
+Here, you can activate your API key to unlock access to the DeepReel API. Click on the eye icon on your profile to
+access your API Key.
+
+<Warning>
+  If an unauthorised person gains access to your API Key they will be able use
+  your account and credits. Keep it somewhere safe and don't share it with
+  anyone.
+</Warning>
+
+Currently, we support one key per user on your team. Once you have generated a key, you will need to pass in the key
+with every API request for us to process it successfully. Otherwise, an error with a code of 401 will be returned.
+
+<Note>
+  Changes made through the API will be attributed to the person the API key is
+  assigned to.
+</Note>
+
+#### ApiKey Scheme
+
+| Item                   | Value                                                                                          |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| Security Scheme Type:  | API Key                                                                                        |
+| Header parameter name: | X-API-KEY                                                                                      |
+| Header parameter desc: | API key with the prefix: `dr_` <br/> e.g. `dr_ApnKD16Sw64AQ6-arfK0PTCPcXsTuIqEHZENX0Q2MSogCZu` |
+
+### Authentication Errors
+
+_Error: API key not set or invalid_
+
+**Solution:** Double-check your API key for any typos. If you’re copying it from a website or document, ensure there are no leading or trailing whitespaces. If the error persists, verify the API key's validity in the DeepReel's dashboard.

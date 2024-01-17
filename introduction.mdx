@@ -1,71 +1,71 @@
 ---
-title: Introduction
-description: 'Welcome to the home of your new documentation'
+title: "Introduction"
+description: "Explore our Guides and API Reference to get the most out of DeepReel."
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
-/>
+---
 
-## Setting up
-
-The first step to world-class documentation is setting up your editing environnments.
+## [API Reference](/api-reference)
 
 <CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
+  <Card title="API Reference" icon="rectangle-terminal" href="/api-reference/">
+    Dig into the details of using the DeepReel API.
   </Card>
 </CardGroup>
 
-## Make it yours
+---
 
-Update your docs to your brand and add valuable content for the best user conversion.
+# Prerequisite
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/showcase"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>
+This guide will help you get started with [DeepReel](https://www.deepreel.com). We will cover everything, starting with creating an account, and then moving on to generating a video.
+
+### Create DeepReel account
+
+[Sign Up for a DeepReel Account](https://beta.deepreel.com/signin). Once you register with DeepReel, you gain the ability to produce professional avatar videos using the advanced AI technology of DeepReel. Start your journey in personalized video creation with DeepReel.
+
+### Create an API key
+
+After registering your DeepReel account, navigate to the account settings. In this section, scroll down to find the API Keys area. Here, you can activate your API key to unlock access to the DeepReel api.
+
+<Note>
+  The DeepReel API is exclusively accessible to users subscribed to a paid plan.
+  To utilize the DeepReel API, you need to have an active subscription to one of
+  the non-free plans.
+</Note>
+
+<Warning>
+  An API key gives complete accesss to your workspace data. Keep it somewhere
+  safe and don't share it with anyone.
+</Warning>
+
+<Frame>
+  <img src="/images/missing.png" />
+</Frame>
+
+### Configuring Webhook (Optional)
+
+You have the option to set up webhook endpoints that respond to events from DeepReel. Just go to your account page on DeepReel to configure your webhook settings easily.
+
+<Frame>
+  <img src="/images/missing.png" />
+</Frame>
+
+For advanced webhook configuration, explore our [webhook API guide](/webhook/overview).
+
+## Create Your First Video
+
+<Snippet file="generate-video.mdx" />
+
+## Checking the status of the Video
+
+<Snippet file="checking-video-status.mdx" />
+
+### Download the video
+
+<Snippet file="download-video.mdx" />
+
+### Conclusion
+
+For an in-depth understanding of DeepReel's APIs and their functionalities, we recommend reviewing our [API reference](/api-reference/).
+
+In conclusion, the DeepReel API enables you to harness the exceptional AI capabilities of DeepReel for the programmatic creation of captivating avatar videos. By setting up a DeepReel account, acquiring an API key, and optionally setting up webhooks, you're well-equipped to start your journey in video creation. Discover the extensive possibilities of DeepReel APIs to inject creativity into your endeavors, whether they're for educational, entertainment, or marketing purposes.

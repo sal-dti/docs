@@ -1,0 +1,19 @@
+---
+title: "Requests and Responses"
+---
+
+This is a full-featured RESTful API. All requests use the base URL of https://api.deepreel.com/.
+
+Responses to each request are provided as a JSON object. The response is either the data requested, or a valid error
+message and error code as outlined below.
+
+Here is a list of all the error codes the DeepReel API returns in case something does not go as expected:
+
+| Error Code | Meaning                                                                                                               |
+| ---------- | --------------------------------------------------------------------------------------------------------------------- |
+| 401        | Unauthorized -- Your API key is invalid.                                                                              |
+| 403        | Forbidden -- Insufficient rights to a resource.                                                                       |
+| 404        | Not Found -- Requested resource does not exist.                                                                       |
+| 429        | Too Many Requests -- You have exceed the rate limit.                                                                  |
+| 500        | Internal Server Error -- We had a problem with our server. Try again later.                                           |
+| 503        | Service Unavailable -- This shouldn't generally happen. Either a deploy is in process, or DeepReel services are down. |

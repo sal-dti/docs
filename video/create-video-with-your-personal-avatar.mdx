@@ -1,0 +1,96 @@
+---
+title: "Create Avatar Video"
+description: Effortlessly craft personalized avatar videos using the DeepReel API.
+---
+
+Our comprehensive guide will lead you through choosing avatars, selecting voices, and creating engaging videos suitable for various uses. Whether your focus is on educational, entertainment, or marketing content, the DeepReel API streamlines the process, making it straightforward and effective.
+
+<Steps>
+  <Step title="Create a Projcet (Skip if already exists)">
+    [Create Project](/api-reference/project/create-project)
+
+    First we will create a project and store the `project_id`.
+    <CodeGroup>
+    ```bash Request
+    curl --request POST
+    --url https://api.deepreel.com/project/
+    --header 'X-API-KEY: <x-api-key>'
+    --data '{ 'todo' }'
+    ```
+
+    ```javascript Response
+    {
+      "todo": "todo"
+    }
+    ```
+    </CodeGroup>
+
+  </Step>
+
+  <Step title="Get List of Languages and Avatars">
+    To create an avatar video, selecting an avatar and a launguage is essential. You
+    can retrieve a list of available avatars and langugages by utilizing the [List
+    Avatar](/api-reference/avatar/list-avatars) and [List
+    Languages](/api-reference/language/list-languages) API endpoints.
+
+    [List Avatars](/api-reference/avatar/list-avatars)
+
+    Employ this API to access a list of available avatars, which includes your instant avatars.
+    This API request will present you with available avatar. Select one from the list and make a note of its 'avatar_id' for subsequent steps.
+
+    <CodeGroup>
+    ```bash Request
+    curl --request GET
+    --url https://api.deepreel.com/project/assets/avatar/
+    --header 'X-API-KEY: <x-api-key>'
+    ```
+
+    ```javascript Response
+    {
+      "todo": "todo"
+    }
+    ```
+    </CodeGroup>
+
+    [List Avatar Languages](/api-reference/language/list-languages)
+    Employ this API to access a list of language supported by the selected avatar.
+
+    <CodeGroup>
+    ```bash Request
+    curl --request GET
+    --url https://api.deepreel.com/project/assets/language/avatar_id=<selected_avatar_id>
+    --header 'X-API-KEY: <x-api-key>'
+    ```
+
+    ```javascript Response
+    {
+      "todo": "todo"
+    }
+    ```
+    </CodeGroup>
+
+    Assuming you've selected an avatar and a language, let's proceed to create a script and generate your video.
+
+  </Step>
+
+  <Step title="Prepare script">
+    TODO
+
+    Now that we have prepared the required data, let's create your avatar video.
+
+  </Step>
+
+<Step title="Generate Video">
+  <Snippet file="generate-video.mdx" />
+</Step>
+
+<Step title="Checking Video Status">
+  <Snippet file="checking-video-status.mdx" />
+</Step>
+
+  <Step title="Download the Video">
+     <Snippet file="download-video.mdx" />
+  </Step>
+</Steps>
+
+In this detailed guide, you've learned the process of creating avatar videos using the DeepReel API. By choosing an avatar and a voice, you're now equipped to produce captivating videos for diverse applications. Continue exploring and crafting incredible content!
