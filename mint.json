@@ -44,6 +44,7 @@
     {
       "group": "Avatar",
       "pages": [
+        "api-reference/avatar/create-avatar-video",
         "api-reference/avatar/get-avatar",
         "api-reference/avatar/list-avatars"
       ]

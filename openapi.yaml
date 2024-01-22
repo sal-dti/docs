@@ -107,6 +107,81 @@ paths:
                     nullable: true
                     description: Detail of the error message.
           description: ""
+  /project/assets/generate_audio_from_text/:
+    post:
+      operationId: Create an Audio
+      description: Generate Audio from text.
+      tags:
+        - project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateAudioRequest"
+        required: true
+      security:
+        - apiKeyAuth: []
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateAudioResponse"
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ""
+  /project/assets/generate_avatar_from_video/:
+    post:
+      operationId: Generate Avatar from Video
+      description: Generate an AI avatar from video file or url.
+      tags:
+        - project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAvatarFromUrlRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateAvatarFromFileRequest"
+        required: true
+      security:
+        - apiKeyAuth: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateAvatarResponse"
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ""
   /project/assets/generate_video_from_audio/:
     post:
       operationId: Generate Video from Audio
@@ -121,6 +196,42 @@ paths:
           multipart/form-data:
             schema:
               $ref: "#/components/schemas/GenerateVideoFromAudioFileRequest"
+        required: true
+      security:
+        - apiKeyAuth: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateVideoResponse"
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ""
+  /project/assets/generate_video_from_text/:
+    post:
+      operationId: Generate Video from text
+      description: Generate an AI avatar video from text.
+      tags:
+        - project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateVideoFromTextRequest"
         required: true
       security:
         - apiKeyAuth: []
@@ -542,78 +653,6 @@ paths:
                     nullable: true
                     description: Detail of the error message.
           description: ""
-  /project/generate_video/:
-    post:
-      operationId: Generate Video from Text
-      description: Generate an AI avatar video from text.
-      tags:
-        - project
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GenerateVideoWithScriptRequest"
-        required: true
-      security:
-        - apiKeyAuth: []
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GenerateVideoResponse"
-          description: ""
-        "400":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    nullable: false
-                    description: Text of the error message.
-                  detail:
-                    type: object
-                    nullable: true
-                    description: Detail of the error message.
-          description: ""
-  /project/generate_voice_audio/:
-    post:
-      operationId: Create Audio
-      description: Generate Audio from text.
-      tags:
-        - project
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GenerateAudioRequest"
-        required: true
-      security:
-        - apiKeyAuth: []
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GenerateAudioResponse"
-          description: ""
-        "400":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    nullable: false
-                    description: Text of the error message.
-                  detail:
-                    type: object
-                    nullable: true
-                    description: Detail of the error message.
-          description: ""
   /subscription/active/:
     get:
       operationId: Active Subscription Info
@@ -980,9 +1019,11 @@ components:
           description: Avatar used for video generation.
         language:
           allOf:
-            - $ref: "#/components/schemas/Langauge"
+            - $ref: "#/components/schemas/Language"
           readOnly: true
-          description: Language used to generated the video.
+          description:
+            Language used to generated the video. `null` incase video was
+            created from audio.
         creator:
           allOf:
             - $ref: "#/components/schemas/Creator"
@@ -991,7 +1032,9 @@ components:
         script_plain_text:
           type: string
           readOnly: true
-          description: Plain text script used to create the video.
+          description:
+            Plain text script used to create the video. `null` incase video
+            was created from audio.
         background_color:
           type: string
           readOnly: true
@@ -1185,6 +1228,47 @@ components:
         - id
         - is_default
         - name
+    CreateAvatarFromFileRequest:
+      type: object
+      properties:
+        video_1:
+          type: string
+          format: uri
+          description: A video file (mp4). Size max limit is 15 mb.
+        video_2:
+          type: string
+          format: uri
+          description: A video file (mp4). Size max limit is 15 mb.
+      required:
+        - video_1
+        - video_2
+    CreateAvatarFromUrlRequest:
+      type: object
+      properties:
+        video_1:
+          type: string
+          format: uri
+          description:
+            A public HTTPS url of the video file (mp4). Size max limit
+            is 15 mb.
+        video_2:
+          type: string
+          format: uri
+          description:
+            A public HTTPS url of the video file (mp4). Size max limit
+            is 15 mb.
+      required:
+        - video_1
+        - video_2
+    CreateAvatarResponse:
+      type: object
+      properties:
+        avatar_id:
+          type: string
+          format: uuid
+          description: Unique identifier of the avatar.
+      required:
+        - avatar_id
     Creator:
       type: object
       properties:
@@ -1217,36 +1301,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/NodeParagraph"
-          description: |-
-            The final text content is represented as a list of paragraph
-            objects, each of which contains two properties: `type` and `children`, and follows this format:
-            ```
-            {
-              'type': 'paragraph',
-              'children': [...]
-            }
-            ```
-            where the `children` property is a list of objects that can contain script nodes.
-            A script node can be either a TEXT node or a Tag node with the following format:
-            For TEXT node:
-            ```
-            {
-              'text': 'some text...'
-            }
-            ```
-            where the `text` property is of type string and contains the actual text representing
-            a single line or phrase to be spoken.
-
-            To add a pause to your text, you can use the Tag node:
-            ```
-            {
-              'type': 'pause',
-              'value': 2
-            }
-            ```
-            where the `type` property with a 'pause' literal is used to insert a pause
-            in the audio, and the `value` property specifies the duration of the pause in seconds.
-            Please note that the maximum duration allowed is 10 seconds.
         voice_id:
           type: string
           format: uuid
@@ -1255,8 +1309,8 @@ components:
           type: integer
           default: 94
           description:
-            Language used to generate the audio.                                                       Language
-            Id for `English - Default (en-us)` is `94`
+            Language used to generate the audio. Language Id for `English
+            - Default (en-us)` is `94`
         stability:
           type: number
           format: double
@@ -1300,10 +1354,6 @@ components:
     GenerateVideoFromAudioFileRequest:
       type: object
       properties:
-        audio_file:
-          type: string
-          format: uri
-          description: An audio file. (mp3). Size max limit is 5 mb.
         avatar_id:
           type: string
           format: uuid
@@ -1333,6 +1383,10 @@ components:
         title:
           type: string
           description: Title of the video. Length should be less than 100 characters.
+        audio_file:
+          type: string
+          format: uri
+          description: An audio file. (mp3). Size max limit is 5 mb.
       required:
         - aspect_ratio
         - audio_file
@@ -1340,10 +1394,6 @@ components:
     GenerateVideoFromAudioUrlRequest:
       type: object
       properties:
-        audio_url:
-          type: string
-          format: uri
-          description: A public HTTPS link of an audio file (mp3).
         avatar_id:
           type: string
           format: uuid
@@ -1373,72 +1423,21 @@ components:
         title:
           type: string
           description: Title of the video. Length should be less than 100 characters.
+        audio_url:
+          type: string
+          format: uri
+          description: A public HTTPS link of an audio file (mp3).
       required:
         - aspect_ratio
         - audio_url
         - avatar_id
-    GenerateVideoResponse:
+    GenerateVideoFromTextRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: Uique Identifier of the video.
-        estimated_completion_time:
-          type: integer
-          description: Video generation estimated completion time in seconds.
-        message:
-          type: string
-          description: Extra detail.
-      required:
-        - id
-    GenerateVideoWithScriptRequest:
-      type: object
-      properties:
-        slate_script:
-          type: array
-          items:
-            $ref: "#/components/schemas/NodeParagraph"
-          description: |-
-            The final text content is represented as a list of paragraph
-            objects, each of which contains two properties: `type` and `children`, and follows this format:
-            ```
-            {
-              'type': 'paragraph',
-              'children': [...]
-            }
-            ```
-            where the `children` property is a list of objects that can contain script nodes.
-            A script node can be either a TEXT node or a Tag node with the following format:
-            For TEXT node:
-            ```
-            {
-              'text': 'some text...'
-            }
-            ```
-            where the `text` property is of type string and contains the actual text representing
-            a single line or phrase to be spoken.
-
-            To add a pause to your text, you can use the Tag node:
-            ```
-            {
-              'type': 'pause',
-              'value': 2
-            }
-            ```
-            where the `type` property with a 'pause' literal is used to insert a pause
-            in the audio, and the `value` property specifies the duration of the pause in seconds.
-            Please note that the maximum duration allowed is 10 seconds.
         avatar_id:
           type: string
           format: uuid
           description: The avatar to be used to generate the video
-        language_id:
-          type: integer
-          default: 94
-          description:
-            Language used to generate the video.                                                       Language
-            Id for `English - Default (en-us)` is `94`
         background_color:
           type: string
           default: "#3D3D3D"
@@ -1450,7 +1449,7 @@ components:
         background_image:
           type: string
           format: uri
-          description: A public HTTP link of an image (jpg/jpeg/png).
+          description: A public HTTPS link of an image (jpg/jpeg/png).
         aspect_ratio:
           allOf:
             - $ref: "#/components/schemas/AspectRatioEnum"
@@ -1464,6 +1463,16 @@ components:
         title:
           type: string
           description: Title of the video. Length should be less than 100 characters.
+        slate_script:
+          type: array
+          items:
+            $ref: "#/components/schemas/NodeParagraph"
+        language_id:
+          type: integer
+          default: 94
+          description:
+            Language used to generate the audio. Language Id for `English
+            - Default (en-us)` is `94`
         stability:
           type: number
           format: double
@@ -1489,7 +1498,22 @@ components:
         - aspect_ratio
         - avatar_id
         - slate_script
-    Langauge:
+    GenerateVideoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique Identifier of the video.
+        estimated_completion_time:
+          type: integer
+          description: Video generation estimated completion time in seconds.
+        message:
+          type: string
+          description: Extra detail.
+      required:
+        - id
+    Language:
       type: object
       properties:
         id:
