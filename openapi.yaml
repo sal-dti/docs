@@ -1234,11 +1234,11 @@ components:
         video_1:
           type: string
           format: uri
-          description: A video file (mp4). Size max limit is 15 mb.
+          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
         video_2:
           type: string
           format: uri
-          description: A video file (mp4). Size max limit is 15 mb.
+          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
       required:
         - video_1
         - video_2
@@ -1250,13 +1250,13 @@ components:
           format: uri
           description:
             A public HTTPS url of the video file (mp4). Size max limit
-            is 15 mb.
+            is 500 mb.
         video_2:
           type: string
           format: uri
           description:
             A public HTTPS url of the video file (mp4). Size max limit
-            is 15 mb.
+            is 500 mb.
       required:
         - video_1
         - video_2
@@ -1528,6 +1528,12 @@ components:
       required:
         - id
         - name
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Extra detail.
     ModeEnum:
       enum:
         - month
