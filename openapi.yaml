@@ -1234,11 +1234,11 @@ components:
         video_1:
           type: string
           format: uri
-          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
+          description: A video file (mp4/mov/mkv/avi/wav). Size max limit is 500 mb.
         video_2:
           type: string
           format: uri
-          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
+          description: A video file (mp4/mov/mkv/avi/wav). Size max limit is 500 mb.
       required:
         - video_1
         - video_2
