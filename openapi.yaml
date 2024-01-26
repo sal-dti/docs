@@ -1234,11 +1234,11 @@ components:
         video_1:
           type: string
           format: uri
-          description: A video file (mp4/mov/mkv/avi/wav). Size max limit is 500 mb.
+          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
         video_2:
           type: string
           format: uri
-          description: A video file (mp4/mov/mkv/avi/wav). Size max limit is 500 mb.
+          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
       required:
         - video_1
         - video_2
@@ -1249,13 +1249,13 @@ components:
           type: string
           format: uri
           description:
-            A public HTTPS url of the video file (mp4). Size max limit
+            A public HTTPS url of the video file (mp4/mov/mkv/avi). Size max limit
             is 500 mb.
         video_2:
           type: string
           format: uri
           description:
-            A public HTTPS url of the video file (mp4). Size max limit
+            A public HTTPS url of the video file (mp4/mov/mkv/avi). Size max limit
             is 500 mb.
       required:
         - video_1
@@ -1386,7 +1386,7 @@ components:
         audio_file:
           type: string
           format: uri
-          description: An audio file. (mp3). Size max limit is 5 mb.
+          description: An audio file. (mp3/wav). Size max limit is 10 mb.
       required:
         - aspect_ratio
         - audio_file
