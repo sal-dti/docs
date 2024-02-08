@@ -1,12 +1,10 @@
 [See detailed API reference](/api-reference/video/create-video)
 
-## Create Avatar Workflow
-
 Our Avatar training expects two videos to be recorded as per the guidelines mentioned in [this document](https://deepreel.notion.site/Create-Your-Own-DeepReel-Avatar-2ef80e263deb4d84a1733cbb9ca00eab).
 
 Once you have the videos ready, follow the steps below:
 
-#### Step 1: Generate Signed URL
+### Step 1: Generate Signed URL
 
 To upload the avatar videos, you need to generate a `signed URL` for each video using the following endpoint:
 
@@ -29,7 +27,7 @@ To upload the avatar videos, you need to generate a `signed URL` for each video 
 
 Save the `filename` and `url` obtained in the response for next steps.
 
-#### Step 2: Upload to URL
+### Step 2: Upload to URL
 
 After obtaining the `url` for each video, upload each video to their respective `url` using a `PUT` method:
 
@@ -49,7 +47,7 @@ After obtaining the `url` for each video, upload each video to their respective 
 
 _Supported content-type: video/mp4_
 
-#### Step 3: Create Avatar
+### Step 3: Create Avatar
 
 If both videos are successfully uploaded to their respective `url`,
 pass both the generated `filename` received in response of **Step 1** to the following endpoint to create the avatar:
