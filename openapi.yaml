@@ -9,90 +9,71 @@ paths:
   /project/assets/avatar/:
     get:
       operationId: List Avatars
-      description:
-        Returns a list of available Avatars either public or associated
+      description: Returns a list of available Avatars either public or associated
         with the authenticated user.
       parameters:
-        - in: query
-          name: gender
-          schema:
-            type: integer
-            enum:
-              - 1
-              - 2
-              - 3
-          description: |-
-            Filter the Avatars based on the Gender. Available Options:
-            * `1` - Male
-            * `2` - Female
-            * `3` - Non Binary
-        - in: query
-          name: is_custom
-          schema:
-            type: boolean
-          description: Filter only the custom avatars.
-        - in: query
-          name: language
-          schema:
-            type: integer
-          description: Id of the language. Filter the Avatars based on the language.
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Filter the Avatars based on the name (partial-match and case-insensitive).
+      - in: query
+        name: gender
+        schema:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+        description: Filter the Avatars based on the Gender. Available Options 1 -
+          Male, 2 - Female, 3 - Non Binary
+      - in: query
+        name: is_custom
+        schema:
+          type: boolean
+        description: Filter only the custom avatars.
+      - in: query
+        name: language
+        schema:
+          type: integer
+        description: Id of the language. Filter the Avatars based on the language.
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: Filter the Avatars based on the name (partial-match and case-insensitive).
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ApiAvatarList"
-          description: ""
+                  $ref: '#/components/schemas/ApiAvatarList'
+          description: ''
   /project/assets/avatar/{id}/:
     get:
       operationId: Get Avatar
       description: Returns the detail of the Avatar.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this avatar.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this avatar.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiAvatar"
-          description: ""
-        "400":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    nullable: false
-                    description: Text of the error message.
-                  detail:
-                    type: object
-                    nullable: true
-                    description: Detail of the error message.
-          description: ""
-        "404":
+                $ref: '#/components/schemas/ApiAvatar'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -106,29 +87,44 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ''
   /project/assets/generate_audio_from_text/:
     post:
       operationId: Create an Audio
       description: Generate Audio from text.
       tags:
-        - project
+      - project
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GenerateAudioRequest"
+              $ref: '#/components/schemas/GenerateAudioRequest'
         required: true
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "201":
+        '201':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GenerateAudioResponse"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/GenerateAudioResponse'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -142,32 +138,29 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/generate_avatar_from_video/:
     post:
       operationId: Generate Avatar from Video
       description: Generate an AI avatar from video file or url.
       tags:
-        - project
+      - project
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateAvatarFromUrlRequest"
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/CreateAvatarFromFileRequest"
+              $ref: '#/components/schemas/CreateAvatarFromUrlRequest'
         required: true
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateAvatarResponse"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/CreateAvatarResponse'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -181,32 +174,32 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/generate_video_from_audio/:
     post:
       operationId: Generate Video from Audio
       description: Generate an AI avatar video from an audio file or url.
       tags:
-        - project
+      - project
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GenerateVideoFromAudioUrlRequest"
+              $ref: '#/components/schemas/GenerateVideoFromAudioUrlRequest'
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/GenerateVideoFromAudioFileRequest"
+              $ref: '#/components/schemas/GenerateVideoFromAudioFileRequest'
         required: true
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GenerateVideoResponse"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/GenerateVideoResponse'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -220,29 +213,29 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/generate_video_from_text/:
     post:
       operationId: Generate Video from text
       description: Generate an AI avatar video from text.
       tags:
-        - project
+      - project
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GenerateVideoFromTextRequest"
+              $ref: '#/components/schemas/GenerateVideoFromTextRequest'
         required: true
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GenerateVideoResponse"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/GenerateVideoResponse'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -256,171 +249,171 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/language/:
     get:
       operationId: List Languages
       description: Returns a list of languages associated with the Avatar
       parameters:
-        - in: query
-          name: avatar_id
-          schema:
-            type: string
-            format: uuid
-          description: Languagues associated with the avatar
-          examples:
-            Example-avatarId:
-              value: 1ba08abc-b551-4893-b816-f072eb6565c4
-              summary: Example avatar id
-        - in: query
-          name: voice_id
-          schema:
-            type: string
-            format: uuid
-          description: Languages associated with the voice
-          examples:
-            Example-voiceId:
-              value: 1ba08abc-b551-4893-b816-f072eb6565c4
-              summary: Example voice id
+      - in: query
+        name: avatar_id
+        schema:
+          type: string
+          format: uuid
+        description: Languagues associated with the avatar
+        examples:
+          Example-avatarId:
+            value: 1ba08abc-b551-4893-b816-f072eb6565c4
+            summary: Example avatar id
+      - in: query
+        name: voice_id
+        schema:
+          type: string
+          format: uuid
+        description: Languages associated with the voice
+        examples:
+          Example-voiceId:
+            value: 1ba08abc-b551-4893-b816-f072eb6565c4
+            summary: Example voice id
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ApiLanguage"
-          description: ""
+                  $ref: '#/components/schemas/ApiLanguage'
+          description: ''
   /project/assets/user_audio/:
     get:
       operationId: List history of generated audios
       description: List of generate audios associated with the authenticated user.
       parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: page_size
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginatedApiUserVoiceAudiosList"
-          description: ""
+                $ref: '#/components/schemas/PaginatedApiUserVoiceAudiosList'
+          description: ''
   /project/assets/user_audio/{id}/:
     get:
       operationId: Get asset from audio history
       description: Get audio and script associated with a generated audio.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this user voice audios.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user voice audios.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiUserVoiceAudios"
-          description: ""
+                $ref: '#/components/schemas/ApiUserVoiceAudios'
+          description: ''
     delete:
       operationId: Delete asset from audio history
       description: Delete a generated audio.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this user voice audios.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user voice audios.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "204":
+        '204':
           description: No response body
   /project/assets/user_voice/:
     get:
       operationId: List Voices
       description: Returns a list of Voices associated with tehe authenticated user.
       parameters:
-        - in: query
-          name: age_group
-          schema:
-            type: string
-            nullable: true
-            enum:
-              - Adult
-              - Old
-              - Young
-          description: |-
-            Filter based on the age group of the voice.
+      - in: query
+        name: age_group
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - Adult
+          - Old
+          - Young
+        description: |-
+          Filter based on the age group of the voice.
 
-            * `Young` - Young
-            * `Adult` - Adult
-            * `Old` - Old
-        - in: query
-          name: gender
-          schema:
-            type: string
-            nullable: true
-            enum:
-              - Female
-              - Male
-          description: |-
-            Filter based on the gender of voice.
+          * `Young` - Young
+          * `Adult` - Adult
+          * `Old` - Old
+      - in: query
+        name: gender
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - Female
+          - Male
+        description: |-
+          Filter based on the gender of voice.
 
-            * `Male` - Male
-            * `Female` - Female
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: page_size
-          required: false
-          in: query
-          description: Number of results to return per page.
-          schema:
-            type: integer
+          * `Male` - Male
+          * `Female` - Female
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginatedApiVoiceList"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/PaginatedApiVoiceList'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -434,31 +427,31 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/user_voice/{id}/:
     get:
       operationId: Get Voice Properties
       description: Returns properties of the voice.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this voice.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this voice.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiVoice"
-          description: ""
-        "404":
+                $ref: '#/components/schemas/ApiVoice'
+          description: ''
+        '404':
           content:
             application/json:
               schema:
@@ -472,61 +465,60 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
   /project/assets/video/:
     get:
       operationId: List Videos
       description: Get history of generated videos
       parameters:
-        - in: query
-          name: order
-          schema:
-            type: string
-            enum:
-              - -created_at
-              - created_at
-          description: |-
-            Sort by the date of video creation (Ascending/Descending).
-            If not provided, the resultset will be sort by newest to oldest.
-            * `created_at` - Sort by ascending created at date (oldest to newest)
-            * `-created_at` - Sort by decending created at date (newest to oldest)
+      - in: query
+        name: order
+        schema:
+          type: string
+          enum:
+          - -created_at
+          - created_at
+        description: Sort by the date of video creation (Ascending/Descending). If
+          not provided, the resultset will be sort by newest to oldest. * `created_at`
+          - Sort by ascending created at date (oldest to newest) * `-created_at` -
+          Sort by decending created at date (newest to oldest)
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ApiVideoList"
-          description: ""
+                  $ref: '#/components/schemas/ApiVideoList'
+          description: ''
   /project/assets/video/{id}/:
     get:
       operationId: Get Video
       description: Get audio, video and script associated with the generated video.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this video.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this video.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiVideo"
-          description: ""
-        "404":
+                $ref: '#/components/schemas/ApiVideo'
+          description: ''
+        '404':
           content:
             application/json:
               schema:
@@ -540,20 +532,20 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
     put:
       operationId: Update Video
       description: The update action updates a single object selected by `id`.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this video.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this video.
+        required: true
       tags:
-        - project
+      - project
       requestBody:
         content:
           application/json:
@@ -565,32 +557,17 @@ paths:
                   description: New title for the video.
                   nullable: false
               required:
-                - title
+              - title
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiVideo"
-          description: ""
-        "404":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    nullable: false
-                    description: Text of the error message.
-                  detail:
-                    type: object
-                    nullable: true
-                    description: Detail of the error message.
-          description: ""
-        "403":
+                $ref: '#/components/schemas/ApiVideo'
+          description: ''
+        '404':
           content:
             application/json:
               schema:
@@ -604,26 +581,41 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                    description: Text of the error message.
+                  detail:
+                    type: object
+                    nullable: true
+                    description: Detail of the error message.
+          description: ''
     delete:
       operationId: Delete Video
       description: The delete action deletes a single object selected by `id`.
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          description: A UUID string identifying this video.
-          required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this video.
+        required: true
       tags:
-        - project
+      - project
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "204":
+        '204':
           description: No response body
-        "404":
+        '404':
           content:
             application/json:
               schema:
@@ -637,8 +629,8 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
-        "403":
+          description: ''
+        '403':
           content:
             application/json:
               schema:
@@ -652,53 +644,75 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
+  /project/generate_signed_url/:
+    get:
+      operationId: Generate Signed Url
+      description: Generate signed url to upload videos
+      parameters:
+      - in: query
+        name: filename
+        schema:
+          type: string
+        description: name of file
+        required: true
+      tags:
+      - project
+      security:
+      - apiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signed_url'
+          description: ''
   /subscription/active/:
     get:
       operationId: Active Subscription Info
       description: Gets all information about the users active subscription.
       tags:
-        - subscription
+      - subscription
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ActiveSubscription"
-          description: ""
+                $ref: '#/components/schemas/ActiveSubscription'
+          description: ''
   /user/info/:
     get:
       operationId: Get User Info
       description: Returns authenticated user information.
       tags:
-        - user
+      - user
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/user_info"
-          description: ""
+                $ref: '#/components/schemas/user_info'
+          description: ''
   /user/webhook/:
     get:
       operationId: Get Registered Webhook
       description: Gets detail of the registered webhook
       tags:
-        - user
+      - user
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWebhook"
-          description: ""
-        "404":
+                $ref: '#/components/schemas/UserWebhook'
+          description: ''
+        '404':
           content:
             application/json:
               schema:
@@ -712,28 +726,28 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
     post:
       operationId: Register a Webhook
       description: Register a webhook to listen to the events.
       tags:
-        - user
+      - user
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RegisterWebHookRequest"
+              $ref: '#/components/schemas/RegisterWebHookRequest'
         required: true
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "201":
+        '201':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWebhook"
-          description: ""
-        "400":
+                $ref: '#/components/schemas/UserWebhook'
+          description: ''
+        '400':
           content:
             application/json:
               schema:
@@ -747,45 +761,45 @@ paths:
                     type: object
                     nullable: true
                     description: Detail of the error message.
-          description: ""
+          description: ''
     delete:
       operationId: Delete a registered Webhook
       description: Delete a registered webhook.
       tags:
-        - user
+      - user
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "204":
+        '204':
           description: No response body
   /user/webhook/events/:
     get:
       operationId: List available webhook events
       description: list all supported webhook events
       tags:
-        - user
+      - user
       security:
-        - apiKeyAuth: []
+      - apiKeyAuth: []
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/subscribable_events"
-          description: ""
+                $ref: '#/components/schemas/subscribable_events'
+          description: ''
 components:
   schemas:
     ActiveSubscription:
       type: object
       properties:
         subscription:
-          $ref: "#/components/schemas/ActiveSubscriptionDetail"
+          $ref: '#/components/schemas/ActiveSubscriptionDetail'
     ActiveSubscriptionDetail:
       type: object
       properties:
         plan:
           allOf:
-            - $ref: "#/components/schemas/PartialPlan"
+          - $ref: '#/components/schemas/PartialPlan'
           readOnly: true
           description: Current subscription plan.
         plan_expires_at:
@@ -794,46 +808,42 @@ components:
           description: DateTime when current subscription plan will expire.
         total_credits:
           type: integer
-          description:
-            Total credits available in current subscription plan (Monthly
+          description: Total credits available in current subscription plan (Monthly
             or Annually).
         credits_used:
           type: integer
           description: Credits used in current subscription plan (Monthly or Annually).
         extra_credits_charges:
           type: integer
-          description:
-            Charges to consume overage credits on current subscription
+          description: Charges to consume overage credits on current subscription
             plan.
         total_custom_avatar_credits:
           type: integer
-          description:
-            Total custom avatar credits available in current subscription
+          description: Total custom avatar credits available in current subscription
             plan (Monthly or Annually).
         custom_avatar_credits_left:
           type: integer
-          description:
-            Custom avatar credits used in current subscription plan (Monthly
+          description: Custom avatar credits used in current subscription plan (Monthly
             or Annually).
         scheduled_subscription:
           allOf:
-            - $ref: "#/components/schemas/PartialScheduledSubscription"
+          - $ref: '#/components/schemas/PartialScheduledSubscription'
           readOnly: true
           description: Scheduled subscription plan.
       required:
-        - credits_used
-        - custom_avatar_credits_left
-        - extra_credits_charges
-        - plan
-        - plan_expires_at
-        - scheduled_subscription
-        - total_credits
-        - total_custom_avatar_credits
+      - credits_used
+      - custom_avatar_credits_left
+      - extra_credits_charges
+      - plan
+      - plan_expires_at
+      - scheduled_subscription
+      - total_credits
+      - total_custom_avatar_credits
     AgeGroupEnum:
       enum:
-        - Young
-        - Adult
-        - Old
+      - Young
+      - Adult
+      - Old
       type: string
       description: |-
         * `Young` - Young
@@ -854,7 +864,7 @@ components:
           description: Name of the Avatar.
         gender:
           allOf:
-            - $ref: "#/components/schemas/GenderB68Enum"
+          - $ref: '#/components/schemas/GenderB68Enum'
           readOnly: true
           description: |-
             Gender of the Avatar.
@@ -892,20 +902,20 @@ components:
         languages:
           type: array
           items:
-            $ref: "#/components/schemas/AvatarSupportedLanguage"
+            $ref: '#/components/schemas/AvatarSupportedLanguage'
           readOnly: true
           description: List of languages supported by the Avatar.
       required:
-        - created_at
-        - cropped_asset
-        - full_asset
-        - gender
-        - id
-        - is_colorcode_bg_supported
-        - is_custom
-        - is_pending
-        - languages
-        - name
+      - created_at
+      - cropped_asset
+      - full_asset
+      - gender
+      - id
+      - is_colorcode_bg_supported
+      - is_custom
+      - is_pending
+      - languages
+      - name
     ApiAvatarList:
       type: object
       description: Allows to specify fields to be included
@@ -921,7 +931,7 @@ components:
           description: Name of the Avatar.
         gender:
           allOf:
-            - $ref: "#/components/schemas/GenderB68Enum"
+          - $ref: '#/components/schemas/GenderB68Enum'
           readOnly: true
           description: |-
             Gender of the Avatar.
@@ -930,9 +940,9 @@ components:
             * `2` - Female
             * `3` - Non Binary
       required:
-        - gender
-        - id
-        - name
+      - gender
+      - id
+      - name
     ApiLanguage:
       type: object
       description: Allows to specify fields to be included
@@ -946,8 +956,8 @@ components:
           readOnly: true
           description: Name of the language.
       required:
-        - id
-        - name
+      - id
+      - name
     ApiUserVoiceAudios:
       type: object
       description: Allows to specify fields to be included
@@ -980,13 +990,13 @@ components:
           type: string
           format: uri
       required:
-        - audio_download_url
-        - id
-        - language_id
-        - script_plain_text
-        - stability
-        - style_exaggeration
-        - voice_id
+      - audio_download_url
+      - id
+      - language_id
+      - script_plain_text
+      - stability
+      - style_exaggeration
+      - voice_id
     ApiVideo:
       type: object
       description: Allows to specify fields to be included
@@ -1002,7 +1012,7 @@ components:
           description: Name of the Video.
         video_status:
           allOf:
-            - $ref: "#/components/schemas/VideoStatusEnum"
+          - $ref: '#/components/schemas/VideoStatusEnum'
           readOnly: true
           description: |-
             Status of the video i.e. whether it's completed or failed.
@@ -1014,36 +1024,33 @@ components:
             * `Failed` - Failed
         avatar:
           allOf:
-            - $ref: "#/components/schemas/PartialAvatar"
+          - $ref: '#/components/schemas/PartialAvatar'
           readOnly: true
           description: Avatar used for video generation.
         language:
           allOf:
-            - $ref: "#/components/schemas/Language"
+          - $ref: '#/components/schemas/Language'
           readOnly: true
-          description:
-            Language used to generated the video. `null` incase video was
+          description: Language used to generated the video. `null` incase video was
             created from audio.
         creator:
           allOf:
-            - $ref: "#/components/schemas/Creator"
+          - $ref: '#/components/schemas/Creator'
           readOnly: true
           description: Detail of the user who generated the video.
         script_plain_text:
           type: string
           readOnly: true
-          description:
-            Plain text script used to create the video. `null` incase video
+          description: Plain text script used to create the video. `null` incase video
             was created from audio.
         background_color:
           type: string
           readOnly: true
-          description:
-            "The background color video. A six-bit hex color code starts
-            with #. (e.g. #DRDRDR)"
+          description: 'The background color video. A six-bit hex color code starts
+            with #. (e.g. #DRDRDR)'
         aspect_ratio:
           allOf:
-            - $ref: "#/components/schemas/AspectRatioEnum"
+          - $ref: '#/components/schemas/AspectRatioEnum'
           readOnly: true
           description: |-
             Aspect ratio of the video.
@@ -1061,9 +1068,8 @@ components:
           type: string
           format: uri
           readOnly: true
-          description:
-            "Url of the audio track used to generate the video.                                                _Note:
-            Link will be valid for the next 60 minutes._"
+          description: 'Url of the audio track used to generate the video.                                                _Note:
+            Link will be valid for the next 60 minutes._'
         video_duration:
           type: integer
           readOnly: true
@@ -1072,23 +1078,22 @@ components:
           type: string
           format: uri
           readOnly: true
-          description:
-            "URL of the generated video.                                                _Note:
-            Link will be valid for the next 60 minutes._"
+          description: 'URL of the generated video.                                                _Note:
+            Link will be valid for the next 60 minutes._'
       required:
-        - aspect_ratio
-        - audio_download_url
-        - avatar
-        - background_color
-        - created_at
-        - creator
-        - id
-        - language
-        - script_plain_text
-        - title
-        - video_download_url
-        - video_duration
-        - video_status
+      - aspect_ratio
+      - audio_download_url
+      - avatar
+      - background_color
+      - created_at
+      - creator
+      - id
+      - language
+      - script_plain_text
+      - title
+      - video_download_url
+      - video_duration
+      - video_status
     ApiVideoList:
       type: object
       description: Allows to specify fields to be included
@@ -1104,7 +1109,7 @@ components:
           description: Name of the Video.
         video_status:
           allOf:
-            - $ref: "#/components/schemas/VideoStatusEnum"
+          - $ref: '#/components/schemas/VideoStatusEnum'
           readOnly: true
           description: |-
             Status of the video i.e. whether it's completed or failed.
@@ -1116,7 +1121,7 @@ components:
             * `Failed` - Failed
         creator:
           allOf:
-            - $ref: "#/components/schemas/Creator"
+          - $ref: '#/components/schemas/Creator'
           readOnly: true
           description: Detail of the user who generated the video.
         created_at:
@@ -1125,11 +1130,11 @@ components:
           readOnly: true
           description: DateTime when the video generation was requested.
       required:
-        - created_at
-        - creator
-        - id
-        - title
-        - video_status
+      - created_at
+      - creator
+      - id
+      - title
+      - video_status
     ApiVoice:
       type: object
       description: Allows to specify fields to be included
@@ -1145,7 +1150,7 @@ components:
           description: Name of the voice.
         gender:
           allOf:
-            - $ref: "#/components/schemas/ApiVoiceGenderEnum"
+          - $ref: '#/components/schemas/ApiVoiceGenderEnum'
           readOnly: true
           description: |-
             Gender of the voice.
@@ -1154,7 +1159,7 @@ components:
             * `Female` - Female
         age_group:
           allOf:
-            - $ref: "#/components/schemas/AgeGroupEnum"
+          - $ref: '#/components/schemas/AgeGroupEnum'
           readOnly: true
           description: |-
             Age group of the voice
@@ -1180,32 +1185,31 @@ components:
           type: string
           format: uri
           readOnly: true
-          description:
-            "URL of the sample audio of the voice.                                              _Note:
-            Link will be valid for the next 60 minutes._"
+          description: 'URL of the sample audio of the voice.                                              _Note:
+            Link will be valid for the next 60 minutes._'
       required:
-        - age_group
-        - gender
-        - id
-        - name
-        - sample_audio_url
-        - stability
-        - style_exaggeration
-        - voice_accent
+      - age_group
+      - gender
+      - id
+      - name
+      - sample_audio_url
+      - stability
+      - style_exaggeration
+      - voice_accent
     ApiVoiceGenderEnum:
       enum:
-        - Male
-        - Female
+      - Male
+      - Female
       type: string
       description: |-
         * `Male` - Male
         * `Female` - Female
     AspectRatioEnum:
       enum:
-        - "16:9"
-        - "9:16"
-        - "4:3"
-        - "1:1"
+      - '16:9'
+      - '9:16'
+      - '4:3'
+      - '1:1'
       type: string
       description: |-
         * `16:9` - 16:9 - Standard widescreen
@@ -1225,41 +1229,23 @@ components:
           type: boolean
           description: True if it is the default language of the Avatar.
       required:
-        - id
-        - is_default
-        - name
-    CreateAvatarFromFileRequest:
-      type: object
-      properties:
-        video_1:
-          type: string
-          format: uri
-          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
-        video_2:
-          type: string
-          format: uri
-          description: A video file (mp4/mov/mkv/avi). Size max limit is 500 mb.
-      required:
-        - video_1
-        - video_2
+      - id
+      - is_default
+      - name
     CreateAvatarFromUrlRequest:
       type: object
       properties:
         video_1:
           type: string
           format: uri
-          description:
-            A public HTTPS url of the video file (mp4/mov/mkv/avi). Size max limit
-            is 500 mb.
+          description: Filename from signed url.
         video_2:
           type: string
           format: uri
-          description:
-            A public HTTPS url of the video file (mp4/mov/mkv/avi). Size max limit
-            is 500 mb.
+          description: Filename from signed url.
       required:
-        - video_1
-        - video_2
+      - video_1
+      - video_2
     CreateAvatarResponse:
       type: object
       properties:
@@ -1268,7 +1254,7 @@ components:
           format: uuid
           description: Unique identifier of the avatar.
       required:
-        - avatar_id
+      - avatar_id
     Creator:
       type: object
       properties:
@@ -1282,13 +1268,13 @@ components:
           readOnly: true
           description: Name of the user.
       required:
-        - id
-        - name
+      - id
+      - name
     GenderB68Enum:
       enum:
-        - 1
-        - 2
-        - 3
+      - 1
+      - 2
+      - 3
       type: integer
       description: |-
         * `1` - Male
@@ -1300,7 +1286,7 @@ components:
         slate_script:
           type: array
           items:
-            $ref: "#/components/schemas/NodeParagraph"
+            $ref: '#/components/schemas/NodeParagraph'
         voice_id:
           type: string
           format: uuid
@@ -1308,8 +1294,7 @@ components:
         language_id:
           type: integer
           default: 94
-          description:
-            Language used to generate the audio. Language Id for `English
+          description: Language used to generate the audio. Language Id for `English
             - Default (en-us)` is `94`
         stability:
           type: number
@@ -1317,8 +1302,7 @@ components:
           maximum: 1.0
           minimum: 0.0
           default: 0.5
-          description:
-            This controls the level of variation in generated audio.             Low
+          description: This controls the level of variation in generated audio.             Low
             stability will increase expressiveness of speech while high             stability
             will lower expressiveness but increase the predictability of how the script
             is spoken.
@@ -1328,13 +1312,12 @@ components:
           maximum: 1.0
           minimum: 0.0
           default: 0.0
-          description:
-            Level of exaggeration of the speaking style. Available only
+          description: Level of exaggeration of the speaking style. Available only
             for custom voices.             Higher values will make increase similarity
             of cloned voice but may cause the audio to be less stable.
       required:
-        - slate_script
-        - voice_id
+      - slate_script
+      - voice_id
     GenerateAudioResponse:
       type: object
       properties:
@@ -1345,12 +1328,11 @@ components:
         download_url:
           type: string
           format: uri
-          description:
-            "URL to download the audio.                                         _Note:
-            URL will we valid for 60 minutes only._"
+          description: 'URL to download the audio.                                         _Note:
+            URL will we valid for 60 minutes only._'
       required:
-        - download_url
-        - id
+      - download_url
+      - id
     GenerateVideoFromAudioFileRequest:
       type: object
       properties:
@@ -1360,19 +1342,19 @@ components:
           description: The avatar to be used to generate the video
         background_color:
           type: string
-          default: "#3D3D3D"
-          description:
-            "The background color video. A six-bit hex color code starts
+          default: '#3D3D3D'
+          description: 'The background color video. A six-bit hex color code starts
             with #. (e.g. #DRDRDR)                                      NOTE: The
             `background_image` will get preference over `background_color` if both
-            are specified."
+            are specified.'
         background_image:
           type: string
           format: uri
+          nullable: true
           description: A public HTTPS link of an image (jpg/jpeg/png).
         aspect_ratio:
           allOf:
-            - $ref: "#/components/schemas/AspectRatioEnum"
+          - $ref: '#/components/schemas/AspectRatioEnum'
           description: |-
             Aspect ratio of the video.
 
@@ -1382,15 +1364,16 @@ components:
             * `1:1` - 1:1 - Square
         title:
           type: string
+          nullable: true
           description: Title of the video. Length should be less than 100 characters.
         audio_file:
           type: string
           format: uri
-          description: An audio file. (mp3/wav). Size max limit is 10 mb.
+          description: An audio file. (mp3). Size max limit is 5 mb.
       required:
-        - aspect_ratio
-        - audio_file
-        - avatar_id
+      - aspect_ratio
+      - audio_file
+      - avatar_id
     GenerateVideoFromAudioUrlRequest:
       type: object
       properties:
@@ -1400,19 +1383,19 @@ components:
           description: The avatar to be used to generate the video
         background_color:
           type: string
-          default: "#3D3D3D"
-          description:
-            "The background color video. A six-bit hex color code starts
+          default: '#3D3D3D'
+          description: 'The background color video. A six-bit hex color code starts
             with #. (e.g. #DRDRDR)                                      NOTE: The
             `background_image` will get preference over `background_color` if both
-            are specified."
+            are specified.'
         background_image:
           type: string
           format: uri
+          nullable: true
           description: A public HTTPS link of an image (jpg/jpeg/png).
         aspect_ratio:
           allOf:
-            - $ref: "#/components/schemas/AspectRatioEnum"
+          - $ref: '#/components/schemas/AspectRatioEnum'
           description: |-
             Aspect ratio of the video.
 
@@ -1422,15 +1405,16 @@ components:
             * `1:1` - 1:1 - Square
         title:
           type: string
+          nullable: true
           description: Title of the video. Length should be less than 100 characters.
         audio_url:
           type: string
           format: uri
           description: A public HTTPS link of an audio file (mp3).
       required:
-        - aspect_ratio
-        - audio_url
-        - avatar_id
+      - aspect_ratio
+      - audio_url
+      - avatar_id
     GenerateVideoFromTextRequest:
       type: object
       properties:
@@ -1440,19 +1424,19 @@ components:
           description: The avatar to be used to generate the video
         background_color:
           type: string
-          default: "#3D3D3D"
-          description:
-            "The background color video. A six-bit hex color code starts
+          default: '#3D3D3D'
+          description: 'The background color video. A six-bit hex color code starts
             with #. (e.g. #DRDRDR)                                      NOTE: The
             `background_image` will get preference over `background_color` if both
-            are specified."
+            are specified.'
         background_image:
           type: string
           format: uri
+          nullable: true
           description: A public HTTPS link of an image (jpg/jpeg/png).
         aspect_ratio:
           allOf:
-            - $ref: "#/components/schemas/AspectRatioEnum"
+          - $ref: '#/components/schemas/AspectRatioEnum'
           description: |-
             Aspect ratio of the video.
 
@@ -1462,16 +1446,16 @@ components:
             * `1:1` - 1:1 - Square
         title:
           type: string
+          nullable: true
           description: Title of the video. Length should be less than 100 characters.
         slate_script:
           type: array
           items:
-            $ref: "#/components/schemas/NodeParagraph"
+            $ref: '#/components/schemas/NodeParagraph'
         language_id:
           type: integer
           default: 94
-          description:
-            Language used to generate the audio. Language Id for `English
+          description: Language used to generate the audio. Language Id for `English
             - Default (en-us)` is `94`
         stability:
           type: number
@@ -1479,8 +1463,7 @@ components:
           maximum: 1.0
           minimum: 0.0
           default: 0.5
-          description:
-            This controls the level of variation in generated audio.             Low
+          description: This controls the level of variation in generated audio.             Low
             stability will increase expressiveness of speech while high             stability
             will lower expressiveness but increase the predictability of how the script
             is spoken.
@@ -1490,14 +1473,13 @@ components:
           maximum: 1.0
           minimum: 0.0
           default: 0.0
-          description:
-            Level of exaggeration of the speaking style. Available only
+          description: Level of exaggeration of the speaking style. Available only
             for custom voices.             Higher values will make increase similarity
             of cloned voice but may cause the audio to be less stable.
       required:
-        - aspect_ratio
-        - avatar_id
-        - slate_script
+      - aspect_ratio
+      - avatar_id
+      - slate_script
     GenerateVideoResponse:
       type: object
       properties:
@@ -1512,7 +1494,7 @@ components:
           type: string
           description: Extra detail.
       required:
-        - id
+      - id
     Language:
       type: object
       properties:
@@ -1526,59 +1508,53 @@ components:
           readOnly: true
           description: Name of the Language.
       required:
-        - id
-        - name
-    MessageResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Extra detail.
+      - id
+      - name
     ModeEnum:
       enum:
-        - month
-        - year
+      - month
+      - year
       type: string
       description: |-
         * `month` - month
         * `year` - year
     NodeChild:
       oneOf:
-        - $ref: "#/components/schemas/NodeText"
-        - $ref: "#/components/schemas/NodeTag"
+      - $ref: '#/components/schemas/NodeText'
+      - $ref: '#/components/schemas/NodeTag'
     NodeParagraph:
       type: object
       properties:
         type:
           allOf:
-            - $ref: "#/components/schemas/NodeParagraphTypeEnum"
+          - $ref: '#/components/schemas/NodeParagraphTypeEnum'
           readOnly: true
         children:
           type: array
           items:
-            $ref: "#/components/schemas/NodeChild"
+            $ref: '#/components/schemas/NodeChild'
       required:
-        - children
-        - type
+      - children
+      - type
     NodeParagraphTypeEnum:
       enum:
-        - paragraph
+      - paragraph
       type: string
-      description: "* `paragraph` - paragraph"
+      description: '* `paragraph` - paragraph'
     NodeTag:
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/NodeTagTypeEnum"
+          $ref: '#/components/schemas/NodeTagTypeEnum'
         value:
           type: string
       required:
-        - type
-        - value
+      - type
+      - value
     NodeTagTypeEnum:
       enum:
-        - pause
-        - variable
+      - pause
+      - variable
       type: string
       description: |-
         * `pause` - pause
@@ -1601,7 +1577,11 @@ components:
           type: string
           readOnly: true
       required:
-        - text
+      - customPronounciation
+      - pitchValue
+      - speedValue
+      - text
+      - volumeValue
     PaginatedApiUserVoiceAudiosList:
       type: object
       properties:
@@ -1612,14 +1592,16 @@ components:
           type: string
           nullable: true
           format: uri
+          example: http://api.example.org/accounts/?page=4
         previous:
           type: string
           nullable: true
           format: uri
+          example: http://api.example.org/accounts/?page=2
         results:
           type: array
           items:
-            $ref: "#/components/schemas/ApiUserVoiceAudios"
+            $ref: '#/components/schemas/ApiUserVoiceAudios'
     PaginatedApiVoiceList:
       type: object
       properties:
@@ -1630,14 +1612,16 @@ components:
           type: string
           nullable: true
           format: uri
+          example: http://api.example.org/accounts/?page=4
         previous:
           type: string
           nullable: true
           format: uri
+          example: http://api.example.org/accounts/?page=2
         results:
           type: array
           items:
-            $ref: "#/components/schemas/ApiVoice"
+            $ref: '#/components/schemas/ApiVoice'
     PartialAvatar:
       type: object
       properties:
@@ -1651,8 +1635,8 @@ components:
           readOnly: true
           description: Name of the Avatar.
       required:
-        - id
-        - name
+      - id
+      - name
     PartialPlan:
       type: object
       properties:
@@ -1661,7 +1645,7 @@ components:
           description: Name of the plan.
         mode:
           allOf:
-            - $ref: "#/components/schemas/ModeEnum"
+          - $ref: '#/components/schemas/ModeEnum'
           description: |-
             Mode of the plan.
 
@@ -1669,13 +1653,12 @@ components:
             * `year` - year
         usage_based_allowed:
           type: boolean
-          description:
-            "`True` if usage based billing is supported on this plan else
-            `False`."
+          description: '`True` if usage based billing is supported on this plan else
+            `False`.'
       required:
-        - mode
-        - name
-        - usage_based_allowed
+      - mode
+      - name
+      - usage_based_allowed
     PartialScheduledSubscription:
       type: object
       properties:
@@ -1684,7 +1667,7 @@ components:
           description: Name of the plan.
         mode:
           allOf:
-            - $ref: "#/components/schemas/ModeEnum"
+          - $ref: '#/components/schemas/ModeEnum'
           description: |-
             Mode of the plan.
 
@@ -1695,9 +1678,9 @@ components:
           format: date-time
           description: DateTime when this plan will be activated.
       required:
-        - mode
-        - plan
-        - start_date
+      - mode
+      - plan
+      - start_date
     RegisterWebHookRequest:
       type: object
       properties:
@@ -1710,12 +1693,11 @@ components:
             type: string
             description: Name of the event.
           nullable: true
-          description:
-            List of subscribable events your webhook wants to listen to.                                             `null`
+          description: List of subscribable events your webhook wants to listen to.                                             `null`
             means to subscribe to all the available events.
       required:
-        - endpoint
-        - events
+      - endpoint
+      - events
     UserWebhook:
       type: object
       description: Allows to specify fields to be included
@@ -1735,16 +1717,16 @@ components:
           readOnly: true
           description: Events to be observed.
       required:
-        - endpoint
-        - events
-        - key
+      - endpoint
+      - events
+      - key
     VideoStatusEnum:
       enum:
-        - Pending
-        - Complete
-        - Queued
-        - Processing
-        - Failed
+      - Pending
+      - Complete
+      - Queued
+      - Processing
+      - Failed
       type: string
       description: |-
         * `Pending` - Pending
@@ -1752,6 +1734,18 @@ components:
         * `Queued` - Queued
         * `Processing` - Processing
         * `Failed` - Failed
+    signed_url:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Url to upload video
+        filename:
+          type: string
+          description: Name of the upload file
+      required:
+      - filename
+      - url
     subscribable_events:
       type: object
       properties:
@@ -1762,7 +1756,7 @@ components:
             description: Name of the event.
           description: List of subscribable events your webhook can listen to.
       required:
-        - data
+      - data
     user_info:
       type: object
       properties:
@@ -1778,16 +1772,15 @@ components:
           format: uuid
           description: Email of the authenticated user.
       required:
-        - email
-        - id
-        - name
+      - email
+      - id
+      - name
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-KEY
-      description:
-        "Your API key with the prefix: `dr_`. This is required by all endpoints
+      description: 'Your API key with the prefix: `dr_`. This is required by all endpoints
         to access our API programatically.                             You can view
         your API Key by navigating to the account settings panel (In the bottom left
-        corner click on your                             `Account` → `profile`)"
+        corner click on your                             `Account` → `profile`)'
