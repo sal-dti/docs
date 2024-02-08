@@ -1,12 +1,12 @@
 [See detailed API reference](/api-reference/avatar/generate-signed-url)
 
-Our Avatar training expects two videos to be recorded as per the guidelines mentioned in [this document](https://deepreel.notion.site/Create-Your-Own-DeepReel-Avatar-2ef80e263deb4d84a1733cbb9ca00eab).
+To create a custom avatar, you will need to upload 2 videos recorded as per [our guidelines](https://deepreel.notion.site/Create-Your-Own-DeepReel-Avatar-2ef80e263deb4d84a1733cbb9ca00eab).
 
 Once you have the videos ready, follow the steps below:
 
 ### Step 1: Generate Signed URL
 
-To upload the avatar videos, you need to generate a `signed URL` for each video using the following endpoint:
+To upload the avatar videos, create a `signed URL` for each video using the following endpoint:
 
 <CodeGroup>
 
@@ -29,7 +29,7 @@ Save the `filename` and `url` obtained in the response for next steps.
 
 ### Step 2: Upload to URL
 
-After obtaining the `url` for each video, upload each video to their respective `url` using a `PUT` method:
+Upload each video to its respective `url` using a `PUT` method:
 
 <CodeGroup>
 
@@ -47,10 +47,12 @@ After obtaining the `url` for each video, upload each video to their respective 
 
 _Supported content-type: video/mp4_
 
+_successful upload response_: 200
+
 ### Step 3: Create Avatar
 
-If both videos are successfully uploaded to their respective `url`,
-pass both the generated `filename` received in response of **Step 1** to the following endpoint to create the avatar:
+Once both videos are successfully uploaded, pass the `filename` received in response from **Step 1** to the following endpoint
+to send the request to create the custom avatar
 
 <CodeGroup>
 
