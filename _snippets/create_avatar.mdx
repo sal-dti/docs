@@ -1,0 +1,77 @@
+[See detailed API reference](/api-reference/video/create-video)
+
+# Create Avatar Workflow
+
+Our Avatar training expects two videos to be recorded as per the guidelines mentioned in [this document](https://deepreel.notion.site/Create-Your-Own-DeepReel-Avatar-2ef80e263deb4d84a1733cbb9ca00eab).
+
+Once you have the videos ready, follow the steps below:
+
+## Step 1: Generate Signed URL
+
+To upload the avatar videos, you need to generate a `signed URL` for each video using the following endpoint:
+
+<CodeGroup>
+
+    ```bash Request
+    curl --request GET \
+    --url https://api.deepreel.com/project/generate_signed_url/ \
+    --header 'X-API-KEY: <api-key>'
+    ```
+
+    ```javascript Response
+    {
+    "filename": "<string>",
+    "url": "<string>"
+    }
+    ```
+
+</CodeGroup>
+
+Save the `filename` and `url` obtained in the response for next steps.
+
+## Step 2: Upload to URL
+
+After obtaining the `url` for each video, upload each video to their respective `url` using a `PUT` method:
+
+<CodeGroup>
+
+    ```bash Request
+    curl --location --request PUT '<url>' \
+    --header 'Content-Type: <content-type>' \
+    --data '<LOCAL_FILE_PATH>'
+     ```
+
+    ```javascript Response
+    {
+    }
+    ```
+</CodeGroup>
+
+_Supported content-type: video/mp4_
+
+## Step 3: Create Avatar
+
+If both videos are successfully uploaded to their respective `url`,
+pass both the generated `filename` received in response of **Step 1** to the following endpoint to create the avatar:
+
+<CodeGroup>
+
+    ```bash Request
+    curl --request POST \
+    --url https://api.deepreel.com/project/assets/generate_avatar_from_video/ \
+    --header 'Content-Type: application/json' \
+    --header 'X-API-KEY: <api-key>' \
+    --data '{
+    "video_1": "<string>",
+    "video_2": "<string>"
+    }'
+     ```
+
+    ```javascript Response
+    {
+    "avatar_id": "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+    }
+    ```
+</CodeGroup>
+
+
